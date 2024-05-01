@@ -1,0 +1,72 @@
+---
+title: "Documentación de textos"
+author: "juan haro"
+date: "2024-04-18"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Titulo 1 
+
+## Titulo 2 
+
+### Titulo 3 
+
+#### Titulo 4 
+
+##### Titulo 5 
+
+###### Titulo 6 
+
+Esto es un texto llano , Podemos escribir sin ningun problema todo el texto que queramos acompañar a tanto código en `R` como las fórmulas en \LaTeX 
+
+Una nueva línea de texto (para una nueva línea necesitamos un doble intro), *esto sería un texto en cursiva* o con una sola barra baja _texto en cursiva_ 
+
+Para colocar negrita **negrita** o una doble barra baja __esto también es negrita__ 
+
+Los superindices van con el *sombrerito* este curso vale por una nota^2^.Juan ^profesor^ 
+
+Para tachar una palabra usamos una doble tilde ~~Las matematicas son un rollo~~ 
+
+Para conocer más cursos poremos visitar su perfil [perfil](https://udemy.com) 
+
+endash: -- Y entonces el dijo 
+emsash ---  lo que quería explicar 
+
+elipsis: ... 
+
+ecuaciones en linea $$S=\pi\cdot r^2$$ 
+
+imagen ![](../../../../r-basic-master/teoria/Imgs/logo.png) 
+
+*** 
+
+Aqui empezamos otra cosa 
+
+> Esto es un bloque 
+
+### Lista no ordenadas 
+
+* Item 1
+* Item 2 
+    + subitem 2.1
+    + subitem 2.2 
+* Item 3 
+* Item 4
+
+### Listas ordenadas 
+
+1. Primer item 
+2. segundo item
+    + Sub item de 2
+    + Nuevo sub item 
+3. tercer item
+4. item 
+
+Alumno       |   Nota      |   Edad
+-------------|-------------|----------
+Juan Gabriel |   3.5       |   30
+Ricardo      |   5.6       |   27 
+María        |   7.3       |   19
+

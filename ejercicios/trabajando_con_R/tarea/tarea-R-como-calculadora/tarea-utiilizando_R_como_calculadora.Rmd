@@ -1,0 +1,140 @@
+---
+title: "tarea-trabajando-con-R"
+author: "juan haro"
+date: "2024-04-13"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Utilizando R como una calculadora 
+
+### Pregunta 1 
+
+Si hubiéramos empezado a contar segundos a partir de las 12 campanadas que marcar en el año 2018, ¿a que hora de que día de que año llegaríamos a los 250 millones de segundos? ¡cuidados cons los años bisiestos! 
+
+
+$$250\times 10^6 \text{s} \cdot \frac{1 \ \text{año}}{365 \ \text{dias}}\cdot \frac{1 \ \text{dia}}{24 \ \text{hs}}\cdot \frac{1\text{h}}{60 \ \text{min}}\cdot \frac{1\ \text{min}}{60 \ s}$$ = `r 250*10^6/(365*24*60*60)` años 
+
+ahora tnemos que saber cuantos meses son 0.927 años 
+
+$$0.927 \ \text{años} \cdot \frac{12 \ \text{meses}}{1 \ \text{año}}$$ = `r 0.927*12 ` meses 
+
+despues haque saber cuantos días son 0.124 meses 
+
+$$0.124 \text{ meses } \cdot \frac{30 \text{ dias }}{1 \text{ mes}}$$ = `r 0.124*30` días 
+
+por último las horas  
+
+$$0.72 \text{ dias } \cdot \frac{24 \text{ horas}}{1 \text{ dia}}$$ = `r 0.72*24` horas 
+
+al fin tenemos 7 años 11 meses 3 dias + los dias extra de los años bisiestos y 17 horas 
+
+contando a partir de enero de 2018 , 2018 + 7 = 2025 
+
+
+un año es bisiesto si es divisible por 4, no divisible por 100 salvo si es divisible por 400 
+
+en Python he escrito un programa para saber los qu eson bisiestos entre 2018 y 202 
+
+
+
+def bisiesto(a): 
+
+
+    if a % 4 == 0 and (a % 100 != 0 or a % 400 == 0): 
+    
+    
+        return "{} es bisiesto ".format(a)  
+        
+        
+    return "{} no es bisiesto ".format(a) 
+    
+    
+
+for i in range(2018,2026): 
+
+
+    print(bisiesto(i)) 
+    
+    
+    
+    
+2018 no es bisiesto  
+
+
+2019 no es bisiesto 
+
+
+2020 es bisiesto 
+
+
+2021 no es bisiesto 
+
+
+2022 no es bisiesto 
+
+
+2023 no es bisiesto 
+
+
+2024 es bisiesto 
+
+
+2025 no es bisiesto  
+
+son bisiestos el año 2020 y el año 2024 o sea que hay que añadir 2 días mas
+
+así que tenemos el año **2025 en el mes de Noviembre día 3+2 = 5 a las 5 de la tarde.** 
+
+### Pregunta 2 
+
+Crea una función de `R` que resuelva una ecuación de primer grado (de la forma $A_x+B=0$). Es decir, los parámetros deben ser los coheficientes (en orden) y la función tiene que devolver la solución. Por ejemplo, si la ecuación es $2x+4=0$ , la función debe devolver -2. 
+
+Una vez creada la función, utilizalá para resolver las siguientes ecuaciones de primer grado: 
+
+* $5x+3=0$ 
+
+* $7x+4=18$  
+
+* $x + 1 = 1$ 
+
+```{r}
+f=function(a,b){-b/a} # Ax-B=0 => Ax = -B => x = -B/A
+```
+
+
+* $5x+3=0$  x = `r f(3,5)` 
+
+* $7x+4=18 \Rightarrow \ 7x-14 =0$ x = `r f(-14,7)` 
+
+* $x+1=1 \Rightarrow x=0$ aqui no hace la funcion 
+
+### Pregunta 3 
+
+Da una expresión para calcular $3e-\pi$ con `R` y a continuación da el resultado obtenido redondeado a 3 cifras decimales. 
+
+3*exp(1)-pi = `r round(3*exp(1)-pi,3)` 
+
+
+### Pregunta 4 
+
+Da una expresión para calcular el módulo del número complejo $\frac{(2+3i)^2}{(5+8i)}$ y, a continuación, da el resultado obtenido redondeando a 3 decimales 
+
+```{r}
+a = (2+3i)^2
+b = (5+8i)
+```
+
+ $\frac{(2+3i)^2}{(5+8i)}$ = `r round(a/b,3)`
+
+
+
+
+
+
+
+
+

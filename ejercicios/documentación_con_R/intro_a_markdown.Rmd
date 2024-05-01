@@ -1,0 +1,138 @@
+---
+title: "intro a markdown"
+author: "juan haro"
+date: "2024-04-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Introducción 
+
+
+## R Markdown 
+
+$\textit{la regla de rufini}$
+
+$\LaTeX$ es un lenguaje de marcas para escribir textos cientificos y técnicos 
+
+fracción pequeña $\frac{a}{b}$ , fracción grande con dfrac $\dfrac{a}{b}$. 
+
+parentesis normales $(\frac{a}{b})$ y parentesis adaptativos que engloban a toda la expresión con left( right) $\left(\frac{a}{b}\right)$ 
+
+podemos incluir matices: 
+
+$$\begin{matrix} a_{11} & a_{12} & a_{13} \\
+                 a_{21} & a_{22} & a_{23} \end{matrix}  $$ 
+                 
+si quewremos poner los parentesis a la matriz usaremos begin{pmatix}  matriz end{pmatrix}        
+
+$$\begin{pmatrix} a_{11} & a_{12} & a_{13} \\
+                 a_{21} & a_{22} & a_{23} \end{pmatrix}  $$ 
+                 
+en el caso de querer hacer un determinante 
+
+$$\begin{vmatrix} a_{11} & a_{12} & a_{13} \\
+                 a_{21} & a_{22} & a_{23} \end{vmatrix}  $$ 
+                 
+una matriz rodeada de un corchete 
+$$\begin{bmatrix} a_{11} & a_{12} & a_{13} \\
+                 a_{21} & a_{22} & a_{23} \end{bmatrix}  $$ 
+                 
+rodeada de llaves 
+
+$$\begin{Bmatrix} a_{11} & a_{12} & a_{13} \\
+                 a_{21} & a_{22} & a_{23} \end{Bmatrix}  $$ 
+                 
+o una doble barra 
+
+$$\begin{Vmatrix} a_{11} & a_{12} & a_{13} \\
+                 a_{21} & a_{22} & a_{23} \end{Vmatrix}  $$ 
+### Sistemas de Ecuaciones 
+
+{l} indica que el sistema se alinea a la izquierda, y el punto despues de left indica que no quiero nada a la izquierda 
+$$\left.\begin{array}{l} ax+by=c\\ ex-fy=g \end{array}\right\}$$ 
+
+para poder colocar texto en un istema de ecuaciones o una función definida a trozos usamos text{} 
+
+$$|x|=\left\{\begin{array}{rr} -x & \text{si } x \le 0\\  x & \text{si } x \ge 0 \end{array}\right.$$
+### chunks en Rmarkdown 
+
+
+
+```{r ejemplo sencillo}
+x = 1+1
+x
+```
+```{r cars}
+summary(cars)
+``` 
+
+Vamos a calcular $\sqrt[2]{2} - e^{-2}$:
+```{r primera chunk, echo=TRUE, eval=TRUE,message=TRUE,warning=TRUE,results='hold'}
+sqrt(2)-exp(-2)
+x = 1:10
+sqrt(x)
+```
+
+```{r} 
+# se genera una chunk conalt+crtl+i 
+```
+
+### Parámetos de los chunks 
+
+knit --> tejer 
+
+con echo = TRUE aparece el código y el resultado de la chunk , si le ponemos echo = FALSE, solo aparece el resultado 
+
+con eval = TRUE evalua la expresión , si eval=FALSE solo aparece el código 
+
+parámetro message= TRUE muestra los mensajes que `R` produce al ejecutar el código message=FALSE no muestra los mensajes 
+
+parametro warning , con warning=TRUE muestra los mensajes de advertencia , con warning=FALSE no los muesta 
+
+```{r magic, message=TRUE,eval=TRUE,comment=NA,results='hide'}
+library(magic)
+magic(5)
+
+``` 
+
+parametro comment , con comment=NA se evitan los # 
+
+parámetro results tiene varios valores con results=markup nos muestra el resultado en el documento final línea a línea encabezados por ## 
+
+con results=hide no se muestra el resultado en el documento final, aunque si se ha calculado y podría guardalo en una variable 
+
+el results=asis interpreta el resultado como si fuera texto y pondría los resultados uno a continuación de otro sin que sea línea a línea 
+
+el results=hold muestra el resultado al final sin que sea resulta mensaje , resultado mensaje 
+
+### intercalando resultados de variables en párrafos de texto  
+
+cuando queremos hacer la raiz cuadrada de dos, podemos hacerlo: 
+
+- En $\LaTeX$: $\sqrt{2}$ 
+- En `R` haciendo `r sqrt(2)`
+- La frase completa $\sqrt{2}$ = `r sqrt(2)` 
+
+El número $\pi$ empieza por `r pi` 
+
+$$\begin{equation}
+x = \sin(a)+\tan(b)
+\end{equation}
+$$ 
+
+```{r prueba,results='hide' , echo=FALSE}
+notas = c(3,4,6,7,9)
+media = mean(notas)
+n = length(notas)
+desv.tip = sd(notas)
+``` 
+
+Este año he hecho $n=$ `r n` examenes , con una media  $\overline{x}=$ `r round(media)` y una desviación típica de $s=$ `r round(desv.tip)` . 
+
+### Documentación de textos utilizando Markdown 
+
+
+$$\left(\frac{2}{3}\right)^2 \cdot \left(\frac{\frac{3}{2}}{\frac{\alpha}{\beta}}\right)+\gamma \le\epsilon$$

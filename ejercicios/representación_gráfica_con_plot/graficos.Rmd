@@ -1,0 +1,215 @@
+---
+title: "representacion gráfica con plot"
+author: "juan haro"
+date: "2024-04-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Graficos con la función `plot` 
+
+* **plot(x,y)**: para dibujar un gráfico básico de puntos siendo $x,y$ vectores numéricos
+    - **plot(x)**=**plot(1:length(x),)** si solo damos el vector x funcionará , pero en la coordenada x pondr'desde 1 hasta la longitud del vector y en la coordenada y pondra la x 
+* **plot(x,function)**: para dibujar el gráfico de una función  
+
+```{r ejemplo 1, fig.cap="notas alumnos", fig.align="center"}
+alumnos =c(1:10)
+notas = c(2,5,7,9,8,3,5,6,10,7)
+plot(alumnos,notas)
+``` 
+
+```{r ejemplo 2}
+plot(2^(1:6) )
+``` 
+
+arriba el vector x o el eje x lo formará la secuencia 1:6 y el vector o eje y lo hará la función 2^ (1:6) 
+
+Si queremos representar una función $f(x)$: 
+
+```{r ejemplo 3}
+f <- function(x){sqrt(x)}
+plot(f)
+``` 
+
+### Parámetros de la función plot() 
+
+* **log**: para indica quie queremos el gráfico en escala logaritmica 
+* **main("titulo")**: para poner título al gráfico. Si en vez de un texto queráis poner una expresiónmatematica, tenéis que utilizar la función **expression()** que es una especie de Latex
+* **xlab("etiqueta")**:para poner etiqueta al eje *X* 
+* **ylab("etiqueta")**: para poner etiqueta al eje *Y* 
+* **pch=n**(point characer): para elegir el símbolo de los puntos $n=0,1,\ldots ,25.$. El valor por defecto es **pch = 1** 
+* **cex**: para elegir el tamaño de los símbolos, cex = 1 es el tamaño del símbolo , cex = 2 es el doble de tamaño , cex = 0.5 es la mitad del tamaño original 
+* **col="color en ingles"**: para elegir el color de los símbolos [colores en R](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf)  
+
+```{r escala logaritmica}
+par(mfrow=c(1,2)) # par(mfrow=c(1,2)) indica que quiero ditribuir dos graficos
+# en una fila y dos columnas
+plot = plot(exp(1:20),xlab = "Indice", ylab = expression(e^{1:20}), main = "Escala lineal")
+
+plotLog = plot(exp(1:20),log = "y",xlab = "Indice",ylab = expression(e^{1:20}),main = "Escala logaritmica en el eje y")
+``` 
+
+#### parámetros 
+
+```{r succ fibonacci, fig.align='center'}
+n = 1:20
+fib = (1/sqrt(5))*((1+sqrt(5))/2)^n-(1/sqrt(5))*((1-sqrt(5))/2)^n
+fib
+par(mfrow=c(1,2))
+plot(fib, xlab="n", ylab = expression(F[n]),main = "Sucesión de Fibonacci",pch=21,cex=3,col="powderblue", bg="orchid3", log = "xy")
+# log = "xy" escala logaritmica en x e y
+# con el cex=21 y con el parametro col lo que cambia es el color del borde 
+plot(fib, xlab="n", ylab = expression(F[n]),main = "Sucesión de Fibonacci",pch=21,cex=3,col="powderblue", bg="orchid3", log = "y")
+par(mfrow=c(1,1))
+``` 
+
+### Parámetros de la función plot() 
+
+* **type**: para elegir el tipo de gráfico que queremos:
+    - **p**: puntos (valor por defecto)
+    - **l**: líneas rectas que unen puntos (dichos puntos no tiene símbolo)
+    - **b**(both, lienas y puntos): líneas rectas que unen puntos (dichos puntos tienen símbolo). Las líneas no transpasan los puntos 
+    - **o**: como el anterior pero en este caso las líneas sí transpasarán los puntos 
+    - **h**: histograma de líneas 
+    - **s**: historgrama de escalones 
+    - **n**: para no dibujar los puntos 
+    
+```{r paramtros de putos}
+par(mfrow=c(3,2))
+x= c(50:59)
+y = c(2,9,25,3,100,77,62,54,19,40)
+plot(x,y,pch=23, cex = 2 ,col="blue",type= "p")
+plot(x,y,pch=23, cex = 2 ,col="blueviolet",type= "l")
+plot(x,y,pch=23, cex = 2 ,col="gold",type= "b")
+plot(x,y,pch=23, cex = 2 ,col="deeppink",type= "o")
+plot(x,y,pch=23, cex = 2 ,col="springgreen",type= "h")
+plot(x,y,pch=23, cex = 2 ,col="firebrick1",type= "s")
+par(mfrow=c(1,1))
+``` 
+
+#### Más Parámetros de la función plot() 
+
+* **lty(linetype)**: para especificar el tipo de línea , se puede poner el nombre o el número
+    - "solid":1: línea continua (valor por defecto)
+    - "dashed":2: línea discontinua 
+    - "dotted":3: liena de puntos 
+    - "dotdashed":4: línea que alterna puntos y rayas 
+* **lwd(linewidth)**: para especificar el grsos de las líneas 
+* **xlim(xlimit)**: para modificar el rango del eje *X* se pasa con un vector 
+* **ylim(ylimit)**: para modificar el rango del eje *Y*
+* **xaxp**: para modificar posiciones de las marcas en el eje *X* c(a,b,número de divisiones)
+* **yaxp**: para modificar posiciones de las marcas en el eje *Y* 
+
+```{r mas parametros }
+#x= (2*(1:10))
+#y= (-1)^(1:20)*5*(1:20)
+#plot(x,y,main = "Ejemplo de gráfico", pch=8,cex=1,type = "b", #lty=4,lwd=4,xaxp=c(0,40,2),yaxp=c(-5,100,8))
+``` 
+
+```{r parametros de lineas}
+plot(n,fib,pch=21,col="red",bg="yellow", cex=2, type = "o",lty="dotted", lwd=2,xlim = c(1,10),ylim = c(1,100),xaxp=c(1,10,3),yaxp=c(0,100,10))
+``` 
+
+para consultar la documentacion de la función plot ?plot y para colocar los graficos consultar con ?par (parametros) 
+
+### Añadir elementos al gráfico 
+
+cuando se añade algo encima de un gráfico ya existente , ya no se puede modificar ese gráfico como por ejemplo el rango de coodenadas, las etiquetas el título etc. 
+
+* **points(x,y)**: añade un punto de coordenadas $(x,y)$ a un gráfico ya existente 
+    - tambien podemos utilizar **point** para añadir una familia de puntos 
+* **abline(a,b line)**: para añadir una recta a un gráfico ya existente, como por ejemplo añadir una recta de regresión lineal  
+    - **abline(a,b)**: añade la recta $y=bx+a$ 
+    - **abline(v = x0)**: añade la recta vertical $x=x_0\cdot \nu$ puede estar asignado a un vector 
+    - **abline(h = y0)**: añade la recta horizontal $y=y_0\cdot h$ puede estar asignado a un vector 
+    
+```{r ejemplo de puntos y lineas en un gráfico}
+x = 2*(1:20)
+y = (-1)^(1:20)*5*(1:20)
+plot(x,y,main = "Poninedo un punto y una recta",pch=8, cex=1, type ="b", lty=4,lwd=4
+     ,xaxp=c(0,40,2),yaxp=c(-100,100,8))
+#fuera del plot se añaden los puntos y las líneas
+points(20,0, col="red", cex=4, pch=16)
+abline(h=0, lty="dashed", col="springgreen")
+``` 
+
+```{r otro ejemplo de puntos y rectas}
+f <- function(x){
+  x^2-2*x+sqrt(abs(x))
+}
+plot(f, xlim=c(-3,3),yaxp=c(1,15,15))
+points(0,0, pch=18)
+points(-3:3,(-3:3)^2, col="darkblue")
+points(0,3)
+abline(2,3, lty="dotted", col="red")
+abline(h=0)
+abline(v=0)
+abline(3,0)
+``` 
+
+```{r}
+plot(f, xlim = c(-3,3))
+abline(0,2)
+points(-3:3,(-3:3)^2, pch=21,col="orange",cex=2,bg="green")
+abline(v=-1,lty="dotted", col="darkblue")
+abline(h=1, lty="dashed",col="red")
+``` 
+
+```{r}
+f = function(x){x^2}
+plot(f,xlim = c(-3,3),col="green",lwd=2,ylab = expression(y^2), xlab="X")
+abline(h=0:9, v=-3:3, lty="dashed",col="blue")
+``` 
+
+```{r tangente}
+plot(tan,xlim=c(-pi,pi),ylim=c(-5,5))
+abline(v=c(-pi/2,pi/2),col="red")
+``` 
+
+### Añadir elementos al gráfico 
+
+* **text(x,y,labels="$\ldots$")**: añade en el punto de coordenadas $(x,y)$ el texto especificado como argumentos de labels 
+    - **pos**:permite indicar la posición del texto alrededor de las coodenadas $(x,y)$. Admite los siguientes valores 
+        - 1:abajo
+        - 2: izquierda 
+        - 3: arriba
+        - 4: derecha
+        - 5: sin especificar: el texto se situa centrado en el punto $(x,y)$
+
+
+```{r ejemplo notas alumnos}
+plot(alumnos,notas, main = "Grafico con texto")
+text(alumnos,notas,labels = c("S","A","N","E","N","S","A","A","E","N"),pos = c(rep(3,times=8),1,3))
+``` 
+
+```{r ejemplo de texto en un punto}
+plot(0,0)
+text(0,0,labels="debajo",pos=1)
+text(0,0,labels="izquierda",pos=2)
+text(0,0,labels="arriba",pos=3)
+text(0,0,labels="derecha",pos=4)
+
+points(0,1)
+text(0,1, labels="centro")
+```
+
+
+        
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+

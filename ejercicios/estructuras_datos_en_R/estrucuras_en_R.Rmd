@@ -1,0 +1,619 @@
+---
+title: "estructuras_datos_R"
+author: "juan haro"
+date: "2024-04-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Un vector es una secuencia ordenada de datos . `R` dispone de muchos tipos de datos, por ejemplo: 
+
+* **logical**: lógicos (**TRUE** o **FALSE**) 
+* **integer**: números enteros $\mathbb{Z}$ 
+* **numeric**: números realñes $\mathbb{R}$ 
+* **complex**: números complejos $\mathbb{C}$ 
+* **character**: palabras 
+
+En los vectores de `R` todos sus objetos han de ser del mismo tipo: todos números, todos plabras etc. Cuando queramos usar vectores formados opir objetos de difrentes tipos tendrmos que usar **listas generalizadas, lists** 
+
+> Si queremos definir vectores con distintos tipos de datos lo que va a ocurrir es que se transformarna en un tipo de dato predominante sobre otro o sobre los otros, y el tipo de dato que se impone es el inverso que ahy en la lista de arriba 
+     es decir que si tenemos tipos de datos complejos y numericos , se van a transformar en complejos 
+     
+```{r mix tipos de datos, echo=FALSE}
+a = c(TRUE,2,3.5,FALSE)
+a # los booleanos se TRUE 1.0 y FALSE 0.0 , y los entreos se pasan a flotantes 
+b = c("Juan","carmesi",5.2,8,5+3i) # todo se va a comvertir en caracteres
+b
+```
+para saber el tipo de dato que tiene un vector suamos el método class 
+
+ek ipo de dato del vecto a  es `r class(a)` 
+
+> el método scan() es muy útil porque podemos copiar y pegar datos desde un scan() abierto y estos nos permite guardardr datos en un vector. 
+Para mas informacion ?scan 
+
+
+     
+
+* **c()**: para definir un vector `la funcion c() es usada para combinar o contaquetar sus argumentos` 
+* **scan**: para scanear datos que escribamos en un vector 
+* **fix(x)**: para modificar visualmente el vector x con un editor 
+* **rep(a,n)**: para definir un vector constante que contiene el dato $a$ repetido $n$ veces 
+
+```{r basico,echo=FALSE,comment=NA}
+rep("Mates",7)
+```  
+
+### Ejercicio. 
+
+1. Repite tu año de nacimiento 10 veces 
+
+mi año de nacimiento `r rep(1968 ,10)` 
+
+2. Crea un vector que tenga como entradas 16,0,1,20,1,7,88,5,1,9 , llámalo vec y modifica la cuarta entrada con la función fix() 
+
+```{r ejercicio 2,echo=FALSE}
+vec = c(16,0,1,20,1,7,88,5,1,9)
+
+``` 
+
+### Progresiones aritmeticas 
+
+> Una progresión aritmetica es una sucesión ed números tales que la diferencia, $d$, de cualquier par de térrminos sucesivos de la se cuencia es constante. 
+
+$$a_n= a_1+(n-1)\cdot d$$ 
+el comando para una secuancia es "seq(a,b,by=d): [progresion aritmetica](https://es.wikipedia.org/wiki/Progresi%C3%B3n_aritm%C3%A9tica), donde empieza en "a·, termina en "b" y la difrencia es "d" 
+
+si queremos una progresion de numero de 5 en 5 , que su difrencia sea 5 
+seq(0,100,by=5) = `r seq(0,100,by=5)`, tambien podemos hacer saltos de numero flotantes 
+
+seq(0.5,5,by=0.5)= `r seq(0.5,5,by=0.5)` 
+
+si queremos una progresión aritmetica que termine el úlktimo número pero el paso "by" no divide al primer y el último número , esta progresión llegará hasta el primer número que no se pase del último número indicado. 
+
+También se pude hacer progresiones de mayor a menor por ejemplo seq(100, 6, by=-9)= `r seq(100,6,by=-9)` 
+
+si sabemos donde comienza el elmprimer término de la progresion y y el último pero no sabemos el salto (by) podemos usar el parámetro `length.out` asi seq(a,b,length.out=n) donde n es la longitud de la progresión , por lo tanto si $b = a_n+(n-1)\cdot d \Rightarrow b-a=(n-1)\cdot d \Rightarrow d =\frac{(b-a)}{(n-1)}$ 
+
+por ejemplo seq(4,35,length.out=7) = `r seq(4,35,length.out=7)`
+
+si sabemos la longitud pero no el último número seq(a,by=b,length.out=n) 
+
+seq(4,length.out=7,by=3) = `r seq(4,length=7,by=3)` 
+
+otra cosa que se puede hacer si queremos números consecutivos es la sintaxis a:b , una secuencia de números entreros que comienza en a y termina en b a:b = `r 1:10` podemos hacer varias combinaciones de esto por ejemplo -2:5 = `r -2:5` o si quieremos una secuencia negariva -(2:5)= `r -(2:5)` 
+
+### Ejercicios 
+
+3. Imprimid los números del 1 al 20:  `r 1:20` 
+
+4. Imprimid los 20 primeros números pares: `r seq(2,length.out=20,by=2)` 
+
+5. Imprimid 30 números equidistantes entre el 17 y el 98, mostrando solo 4 cifras significativas: `r round(seq(17,98,length.out=30),3)` 
+```{r}
+ c(rep(pi,5),5:10,-7) -> x
+```
+
+se pueden concatenenar secuencias de números:
+c(rep($\pi$,5),5:10,-7) = `r c(rep(pi,5),5:10,-7)` si a este vector lo guardamos en una variable x, c(rep($\pi$,5),5:10,-7) -> x y hacemos c(0,x,10,x,20) = `r c(0,x,10,x,20)` 
+
+### Funciones 
+
+> Cuando queremos aplicar una función a cada uno de los elementos de un vector de datos, la fución **sapply** nos ahorra tener que programar con bucles en `R`: 
+
+* **sapply(nombre_de_vector,FUN=nombre_de_funcion)**: para aplicar dicha función a todos los elementos del vector 
+* **sqrt(x)**: calcula un nuevo vector con las raices cuadradas de cada uno de los elementos del vector $x$ 
+
+```{r funciones 1, echo=TRUE}
+x=1:10
+f1 = sqrt(x)+sin(x)
+x+pi # suma pi a cada una de las entradas del vector 
+pi*x # multipica por pi cada entrada del vector
+sqrt(x) # hara la raiz cuadrada de cada uno de los elementos del vector 
+sapply(x, FUN=function(a){f1})
+``` 
+
+```{r funciones 2}
+cd = function(x){summary(lm((1:4)~c(1:3,x)))$r.squared}
+cd(5)# no se puede aplicar vectores, solo variables
+#pero aplicando sapply 
+sapply(x, cd)# puedo aplicarlo a un vector
+``` 
+
+podemos sumar vectores 1:10 + 1:10 = `r 1:10 + 1:10` 
+
+```{r ajedrez hasta 8}
+ocho=function(x){x^2}
+sapply(1:8, ocho)
+n=1:100
+f2= sin(n)+15-sqrt(n)
+``` 
+
+podemos aplicar una formula a un vector: 
+
+n= 1:100 n= `r n` 
+
+f2= sin(n)+15-sqrt(n) = `r f2` 
+
+> Dado un vector de datos $x$ podemos calcular muchas medidas estadísticas acerca del mismo: 
+
+* **length(x)**: calcula la longitud del vector $x$
+* **max(x)**: calcula el máximo del vector $x$
+* **min(x)**: calcula el mínimo del vector $x$
+* **prod(x)**: calcula el producot de lñas entradas del vecor $x$ 
+* **mean(x)**: calcula la media aritmetica de las entradas del vecot $x$
+* **diff(x)**: calcula el vector formado por las diferencias sucesivas entre entradas del vector oiginal $x$
+* **cumsum(x)**: calcula el vecot formado por las sumas acumuladas de las entradas del vector original $x$ 
+    - Permite definir sucesiones descritas mediante sumatorios
+    - Cada entrada de **cumsum(x)** es la suma de las entradas de x hasta su posición 
+* **sort(x)**: ordena el vector en orden natural de los objetos que lo forman: el orden numérico creciente, orden alfabético $ldost$    
+* **rev(x)**: invierte el orden de los elementos del vecotr $x$
+    
+```{r funciones 3}
+cuadrado = function(x){x^2}
+v = c(1,2,3,4,5,6)
+v1 = seq(11,1,-2)
+sapply(v, FUN=cuadrado)
+mean(v)
+cumsum(v)
+sort(v1)
+rev(v1)
+``` 
+
+### Ejercicios 
+
+* **ejercicio 6**: Combinad las dos funciones anteriores `sort`y `rev` para crear una función que dado un vector $x$ os los devuelva ordenado en orden decreciente. 
+
+```{r ejercicios 3 y 7, results='hide', echo=FALSE}
+x = c(14-7,11,1,-18,4)
+
+```
+x= `r x` odenado de forma decreciente `r rev(sort(x))` 
+
+* **ejercicio 7**: Investigad la documentación de `sort` (recodar que podeis usar la sintaxis `?sort`en la consola) para leer si cambiando algún argumento de la misma podéis obtener el mismo resultado que habéis programada en el primer ejercicio. 
+
+usamos el parámetro `decreassing= TRUE` podemos elegir si mostramos el vector ordenado de forma decreciente , su valor por defecto es FALSE 
+
+sort(x,decreasing =TRUE) = `r sort(x,decreasing=TRUE)` 
+
+### Subvectores 
+
+* **vector[i]**: da la `i-ésima`entrada del vector 
+    - Los índices de `R` empiezan en 1 
+    - **vector[length(vector)]**: nos da la última entrada del vector 
+    - **vector[a:b]**: si *a* y *b* son números naturales, nos da el subvector con las entradas del vector original que van de la posición `a-ésima`hasta la `b-ésima`. 
+    - **vector[-i]**: si *i* es un número, este subvector está formado por todas las entradas del vector original menos la entrada `i-ésima`. Si *i* resulta ser un vector , entonces es un vector de índices y crea un nuevo vector con las entradas del vector original, cuyos índices pertenecen a *i* 
+    - **vector[-x]**: si $x$ es un vector (de índices), entonces este es el complementario del vector[*x*] 
+    - **==**:= 
+    - **!=**: $\ne$ 
+    - **>=**: $\ge$ 
+    - **<=**: $\le$ 
+    - **<**: $<$ 
+    - **>**: $>$ 
+    - **!**: NO lógico 
+    - **&**: Y lógico 
+    - **|**: O lógico 
+    
+```{r subvectores 1}
+v = c(15,5,6,19,32,0,8)
+v[2] # la posición 2
+v[c(3,5)]# las posiciones 3 y  5
+v[-c(3,5)] # le quita los elementos de las posiciones 3 y 5
+v[v != 19 & v>15]# del vector v en en vector v los que cumplen la condición distintos de 19 y #mayores que 15
+``` 
+
+* **which(x cumple condición)**: para obtener los índices de las entradas del vector $x$ que satisfacen la condición dad 
+* **which.min(x)**: nos da la primera posición en la que el vector $x$ toma su valor mínimo 
+* **which(x==min(x))**: da todas las posiciones en las que el vector $x$ toma sus valores mínimos, no solo la primera como en el caso anterior , sino todas. 
+* **which.max(x)**: nos da la primera posición en la que el vector $x$ toma su valor máximo 
+* **which(x==max(x))**: da todas las posiciones en las que el vector $x$ toma sus valores máximos. 
+
+```{r subvectores 2}
+x = seq(3,50,by=3.5)
+x
+x[3]
+x[length(x)] # útima posición
+x[length(x)-1]# antepenultima 
+x[-3] # elimino la tercera posición 
+x[4:8] # de las posiciones del 4 al 8
+x[8:4] # de las posiciones de 8 al 4 , invierte el subvector de arriba 
+x[x%%2 == 0] # los numeros pares enteros
+x[seq(2,length(x),by=2)] # los numeros a partir del 2 que den saltos de dos en dos , estos son #las posiciones par 
+x[-seq(2,length(x),by=2)] # con un menos delante de la condición elimino los de posicion par 
+tail(x,3) # los tres últimos 
+x[(length(x)-3):length(x)] 
+x[c(1,5,6)] # posiciones 1,5 y 6
+x[x>20 & x<40]
+x[!x<=10]
+``` 
+
+podemos hacer también comparaciones entre dos verctores de igual longitud 
+
+```{r subvectores 3}
+x=c(7,1,9,25,4,17)
+y = c(4,-8,12,-7,3,8)
+x[y>0] # vectores de x donde en las posiciones de y son mayores que cero
+which(x>4) # indica las posiciones donde los valores de x son mayores que 4
+x[which(x>4)] # nos dice que elementos tienen posiciones mayores que 4
+which(x>2 & x<8) # posiciones mayores que 2 y menores que 8
+which(x < 5 | x%%2==0) # menores que 5 o pares 
+x[which(x<5 | x%%2==0)]
+which.min(x)
+x[x>4 & x<7] # numeros entre 4 y 7 (5,6) si no los tiene dara numeric(0) por que son números reales 
+which(x>4 & x<7) # nos dara cero en números enteros porque son posiciones
+``` 
+
+### Los valores NA 
+
+con los comparadores podemos conocer si un valor es mayor , menor o igual a otro , por ejemplo 
+
+$2^{\pi}> \pi^2$ `r 2^pi > pi^2` 
+
+podemos asignar valores a elementos de un vector 
+
+```{r valores NA 1}
+x = 1:10
+x
+x[3]=23
+x
+# si intento acceder a una posición de un vector que no existe
+x[11] # produce NA 
+# si asignamos un valor a esta posicion NA
+x[11]=18 # se habrá añadido a el vector x
+x
+# podemos sumar un número a un subvector
+x[2:5] = x[2:5]+3
+x
+# si queremos colocar un cero a los tres último elementos del vector
+x[(length(x)-2):length(x)] = 0
+x
+# si le doy un valor a un elemento del vector má alejado de una posicion en un vector
+x[length(x)+5]= 12
+x
+# ahora que tengo algunos NA si intento hacer una operacion con el vector me va a dar NA
+sum(x) 
+prod(x)
+# en la suma acumulada cumsum
+cumsum(x) 
+# si utilizamos el parámetro na.rm=_TRUE , podemos hacer las operaciones eliminando los NA
+sum(x,na.rm=TRUE)
+mean(x,na.rm = TRUE)
+is.na(x) # devuelve los indices donde hay NA's 
+which(is.na(x))# nos dice en que posiciones hay NA
+``` 
+
+normalmente queremos eliminar los NA, y podemos sustituirlos por la media del vector
+
+```{r valores NA 2}
+y = x # copio los valores x en y
+y[is.na(y)] # los NA del vector y
+y[is.na(y)] = mean(y, na.rm = TRUE) # sustituyo los NA por la media del vector y sin NA 
+y
+x[!is.na(x)] # nos muestra todos los valores que no son NA
+sum(x[!is.na(x)]) # puedo sumar todos esos valores sin NA
+cumsum(x[!is.na(x)]) # cumsum donde no hay NA
+na.omit(x) # elimina los NA de x 
+x_clean = na.omit(x)
+attr(x_clean, "na.action") = NULL
+```
+
+### Factores 
+
+> un factor es como un vector, pero con una estructura interna más rica que permite usarlo para clasificar observaciones 
+
+* **leves**: atributo del factor, Cada elemento del factor es igual a un nivel. Los nivels clasifican las entradas del facotr. Se ordenan por orden alfabetico 
+
+* para definiur un factor, primero hemos de definir un vector y transformalo por medio de las funciones **factor()** o **as.factor()** , la diferencia es que **factor()** define un factor a partir de un vector dado factor(nombres) define un nuevo factor a partir del vector nombres, con factor(vector, levels=...), podemos especificar que niveles e incluso añadir niveles que no aparecen en el vector. **labels** permite cambiar los nombres de los niveles  as.factor(nombres) comvierte el vector nombres a factor 
+
+```{r factores 1}
+nombres=c("Juan","Antonio","Ricardo","Juan","Juan","Maria","Maria")
+nombres.factor = factor(nombres)
+nombres.factor # los levels son los nombres únicos que hay en el factor
+gender = c("M","H","H","M","M","M","M","H","H")
+gender.fact=factor(gender)
+gender.fact
+# si utilizamos as.factor()
+gender.fact2 = as.factor(gender.fact)
+gender.fact2
+# si queremos añadir otro level no tenemos más remedio que crear otro factor ya que gender.fact2 lo hemos creado con as.factor 
+gender.fact3 = factor(gender, levels = c("M","H","B"))
+gender.fact3
+gender.fact4 = factor(gender , levels = c("M","H","B"),labels = c("Mujer","Hombre","Hermafrodita"))
+gender.fact4
+levels(gender.fact)
+levels(gender.fact4)
+#tambien podemos cambiar los levels de un factor así 
+levels(gender.fact4) = c("Femenino","Masculino","Híbrido")
+gender.fact4
+# tambien podemos usar números 
+notas = c(1,2,3,4,4,4,1,3,2,1,4,3,4,2,1)
+notas.factor = factor(notas)
+notas.factor
+levels(notas.factor)
+levels(notas.factor) = c("Suspenso","Suficiente","Notable","Excelente")
+notas.factor
+# también podemos agrupar esto en dos niveles 
+levels(notas.factor) = c("Suspendido","Aprobado","Aprobado","Aprobado")
+notas.factor
+``` 
+
+* **Factor ordenado**. Es un factor donde los niveles siguen un orden 
+    - **ordered(vector, levels=$\ldots$)**: función que define un factor ordenado y tiene los mismos parámetros que factor  
+    
+```{r factores2}
+notas
+ordered(notas, labels=c("Sus","Suf","Not","Exc"))
+``` 
+
+### Listas 
+
+<p style="color:Blue;"><bold>Lists.</bold></p> Lista Fromada por diferentes objetos, no necesariamente del mismo tipo, cada cual con un nombre interno 
+
+* **list($\ldots$)**:función que crea una list 
+    - Para obtener una componente concreata usamos la instrucción **list$componente** 
+    - También podemos indicar el objeto por su posición usando dobles corchetes **list[[i]]**. Lo que obtenendremos es una list formada por esa única componente, no el objeto que forma la componente 
+    
+```{r listas 1}
+x = c(1,5,-2,6,-7,8,-3,4,-9)
+x
+L = list(nombre="Temeperaturas",datos=x, media=mean(x),sumas=cumsum(x))
+L
+# si quiereo acceder a un elemento de la lista L$nombre (por ejemplo)
+L$media
+L[[3]]
+class(L[2]) # esto es una lista
+class(L[[2]])# es un vector 
+``` 
+
+* **str(list)**: para conocer la estructura interna de una list , **OJO NO CONFUNDIR CON str (string) de python ** 
+* **names**(list)**:para saber los nombres de la list 
+
+```{r listas 2}
+str(L) # structura de la lista L
+names(L)#nombres de la lista L
+``` 
+
+### Matrices 
+
+* **matrix(vector,nrow=n,byrow?valor_logico)**: para definir una matriz de $n$ filas formada por las entradas del vector 
+    - **nrow**: número de filas 
+    - **byrow**: si se iguala a TRUE, la matriz se construye for filas; si se iguala a FALSE(valor por defecto), se construye por columnas -**ncol**: número de columnas (puede usarse en lugar de nrow) 
+    - `R` muestra las matrices indicando como [i,] la fila *iesima* y [j,] la columna *j-esima* 
+    - Todas las entradas de una matriz han de ser del mismo tipo de datos 
+    
+```{r matrices 1}
+M = matrix(1:12 ,nrow = 4)# definiuda por columnas ( por defecto)
+M # el parametro nrow tiene que ser divisor de la cantida de elementos de la matriz 
+M = matrix(1:12, nrow = 3 , byrow = T) # definida por filas con el parametro byrow=TRUE
+M 
+# que ocurre si el numero de elementos no es divisible por el número de filas
+M = matrix(1:12 , nrow = 5) # dara una advertencia warning , pero creará la matriz
+M # y los datos que le faltan los repite de los que tiene , en orden 
+# si hacemos una matriz usando un número en vez de un vector , lo que hará será repetir ese número
+M = matrix(1,nrow = 4 , ncol = 5)
+M
+``` 
+
+### Ejercio 8 
+
+¿Cómo definirías una matriz constante? Es decir ¿cómo definirías una matriz $A$ tal que 
+$\forall i = 1, \ldots,n;j = 1, \ldots, m, a_{ij} = k \text{ siendo } k \in \mathbb{R}$ ? Como `R`no admite incognitas, prueba para el caso especifico $n=3, m=5, k=0$ 
+
+### Ejercicio 9 
+
+con el vector vec = (1,2,3,4,5,6,7,8,9,10,11,12) crea la matriz 
+$$\begin{pmatrix} 1 & 2 & 3 & 4 \\ 5 & 6 & 7 & 8 \\ 9 & 10 & 11 & 12 \end{pmatrix}$$ 
+
+
+```{r ejercicios 8 y 9}
+A = matrix(0,nrow = 3, ncol = 5)
+A
+B = matrix(1:12, nrow = 3)
+B
+``` 
+
+* **rbind(vector1, vector2, $\ldots$)**: construye la matriz de filas vector1, vector2,$\dots$
+* **cbind(vector1, vector2, $\ldots$)**: construye la matriuz de columnas vector1, vector2,$\ldots$ y también podemos añadir una fila o columna a una matriz ya definida 
+    - Los vectores han de tener la maisma longitud 
+    - También sirven para aladir columnas (filas) a una matriz o concatenar por columnas (filas) matrices con el mismo número de filas (columnas) 
+* **diag(vector)    **: para construir una matriz diagonal con un vector dado 
+    - Si aplicamos diag a un numero de $n$ , produce una matriz identidad de orde $n$ una matriz diagonal es una matriz que tiene numeros distintos de cero en la diagonal principal y ceros en las demás partes de la matriz 
+    
+```{r matrices 2}
+M
+rbind(M, c(1,2,3,4,5), c(-1,-2,-3,-4,-5)) # añado dos filas a la matriz M 
+diag(c(1,2,3,4))
+diag(5, nrow = 3)
+``` 
+
+### submatrices 
+
+* **matriz[i,j]**: indica la entra (i,j) de la matriz, siendo $i,j \in \mathbb{N}$. si i y j son vectores de índices estaremos definiendo la submatriz con las filas pertenecientes al vector $i$ y columnas pertenecientes al vector $j$ 
+* **matriz[i,]**: indica la fila $i-esima$ de la matriz, siendo $i \in \mathbb{N}$ o sea eligiendo $i$ si queremo una fila entera 
+* **matriz[,j]**: indica la columna $j-esima$ de la matriz siendo $j \in \mathbb{N}$ eligiendo $j$ si queremos una columna entera 
+    - Si $i$ o $j$ es un vector de índices, estaremos definiendo la submatriz con las filas o columnas pertenecientes al vector i o j 
+    
+```{r matrices 3}
+M = matrix(1:12, nrow = 4)
+M
+M[2,3] #segunda fila tercera columna
+M[3,] # toda la tercera fila 
+M[,1] # toda la primera columna
+M[c(1,3),1:3] # una submatriz de las filas 1 y 3 y las columnas 1 y 3 
+``` 
+
+### funciones 
+
+* **diag(matriz)**: para obtener la diagonal de la matriz 
+* **nrow(matriz)**: nos devuelkve el número de filas de una matriz 
+* **ncol(matriz)**: nos devuelve el número de columnas de la matriz 
+* **dim(matriz)**: nos devuelve la dimensiones de una matriz
+* **sum(matriz)**: obtenemos la suma de todas las entradas de la matriz 
+* **prod(matriz)**: obtenemos el producto de todas las entradas de una matriz 
+* **mean(matriz)**: obtenemos las media aritmetica de todas las entradas de la matriz 
+
+```{r matrices 4}
+diag(M)
+nrow(M)
+ncol(M)
+dim(M)
+sum(M)
+prod(M)
+mean(M)
+``` 
+
+### Más funciones 
+
+* **colSums(matriz)**: obtenemos las sumas por columnas de la matriz 
+* **rowSums(matriz)**: obtenemos las sumas por filas de la matriz 
+* **colMeans(matriz)**: obenemos las medias aritmeticas por columnas de la matriz 
+* **rowMeans(matriz)**: obtenemos las medias aritmeticas por filas de la matriz 
+
+```{r matrices 5}
+colSums(M)
+rowSums(M)
+colMeans(M)
+rowMeans(M)
+``` 
+
+si queremos aplicar una función  a cada elemento de la matriz usamos apply() 
+apply(M,MARGIN = 1) aplicar la función por filas 
+
+apply(M,MARGIN = 2) aplicar la función por columnas 
+
+apply(M,MARGIN = c(1,2)) aplicar la función a las filas y las columnas 
+
+```{r matrices 6}
+apply(M, MARGIN = 1, FUN = function(x){sqrt(sum(x^2))}) # la raiz de las sumas al cuadrado de las filas
+#por columnas sería 
+apply(M, MARGIN = 2, FUN = function(x){sqrt(sum(x^2))})
+# para filas y columnas 
+apply(M, MARGIN = c(1,2), FUN = function(x){sum(x^2)})
+``` 
+
+## Un repaso de Álgebra lineal 
+
+### Operaciones 
+
+* **t(matriz)**:para obtener la transpuesta de la matriz 
+* **+**: para sumas matrices 
+* <bold>*</bold>: para el producto de un escalar por una matriz 
+* **%*%**: para multiplicar matrices 
+* **mtx.exp(matriz,n)**: para elevar la a matriz a n 
+    - Del paquete **Biodem** 
+        - No calcula las potencias exactas, las aproxima 
+* **%%**: y lo mismo hace 
+    - Del paquete **expm** 
+        - No calcula las potencias exactas, las aproxima 
+        
+### Ejercicios 
+
+* Observad qué ocurre si, siendo $A=\begin{pmatrix} 2 & 0 & 2 \\ 1 & 2 & 3 \\ 0 & 1 & 3 \end{pmatrix}$ y $B= \begin{pmatrix} 3 & 2 & 1 \\ 1 & 0 & 0 \\ 1 & 1 & 1 \end{pmatrix}$, realizamos las operacioes $A*B \text{, } A^2 \text{ y } B^3$ 
+
+```{r ejercicios operaciones matrices}
+library(Biodem)
+A=rbind(c(2,0,2),c(1,2,3),c(0,1,3))
+A
+B=rbind(c(3,2,1),c(1,0,0),c(1,1,1))
+B
+print("el cuadrado de A")
+mtx.exp(A,2)
+print("el cubo de B")
+mtx.exp(B,3)
+``` 
+
+* **det(matriz)**:para calcular el determinante de la matriz (tiene que ser matriz cuadrada)
+* **qr(matriz)**:para calcular el rango de la matriz 
+* **solve(matriz)**: para calcular la inversa de una matriz invertible 
+    - También sirve para resolver sistemas de ecuaciones lineales. Para ello introducimos **solve(matriz,b)**, donde $b$ es el vector de terminos idependientes 
+    
+<p style="color:cyan"><u>Vector propio y valor propio</u></p> 
+
+* **eigen(matriz)**: para calcular los valores propios (vaps) y vectores propios (veps) 
+    - **eigen(matriz)$values**:nos da el vector con los vaps de la matriz en orden decreciente de su valor absoluto y repetidos tantas veces como si multiplicidad algebraica. 
+    - **eigen(matrix)$vectors**:nos da una matriz cuyas columnas son los veps de la matriz 
+    - [vectores y valores porpios de una matriz](https://es.wikipedia.org/wiki/Vector,_valor_y_espacio_propios) 
+    
+```{r valores y vectores propios}
+eigen(A)$values
+eigen(A)$vectors
+``` 
+
+#### Ejercicio valores u vectores propios 
+
+Comprobad, con los datos del ejemplo anterior, que si $P$ es la matriz de vectores propios de $M$ en la columna y $D$ la matriz diagonal cuyas entradas son los valores propios de $M$, entonces se cumple la siguiente igualdad llamada **descomposición canónoica**: 
+$$M=P \cdot D \cdot P^{-1}$$ 
+
+```{r ejercicio valores y vectores propios }
+M=rbind(c(2,6,-8),c(0,6,-3),c(0,2,1))
+M
+P = eigen(M)$vectors
+D= diag(eigen(M)$values)
+sol=P%*%D%*%solve(P)
+sol
+sol == M
+``` 
+
+Si hay algún vap con multiplicidad algebraica mayor que 1(es decir quie aparece mas de una vez), la función **eigen()** da tantos valores de ese vap como su multiplicidad algebraica indique, Además, en este caso, `R`intenta que los veps asociados a cada uno de estos vaps sean
+<p style="color:blue"><u>linealmente independientes.</u></p> Por tanto, cuando como resultado obtenemos veps repetidos asociados a un vap de multiplicidad algebraica mayor que 1, es porque àra este vap no existen tantos veps linealmente independientes como su multiplicidad algebraica y, por consiegiente, la matriz no es <p style="color:blue"><u>diagonizable</u></p> 
+
+```{r ejemplo matriz no diagonalizable}
+M = matrix(c(0,1,0,-7,3,-1,16,-3,4),nrow = 3, byrow = T)
+eigen(M)
+``` 
+
+osea que si no es diagonalizable no se cumple $M=P \cdot D \cdot P^{-1}$ 
+
+también se puede hacer todo lo anterior con números complejos  
+
+```{r matrices con complejos}
+A= matrix(c(3-2i,7+3i,2-1i,1+2i), nrow = 2, byrow = T)
+A
+eigen(A) 
+solve(A,c(1-1i,4))
+# no se puede hacer el determinate de una matriz con númerfos complejos, pero 
+# hay una propieda que dice que el determinante es igual al producto de los valores propios 
+# de la matriz
+prod(eigen(A)$values)
+```
+
+
+
+    
+
+
+
+
+
+    
+    
+
+
+
+    
+
+    
+
+
+    
+    
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+
+

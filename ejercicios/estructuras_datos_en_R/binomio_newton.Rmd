@@ -1,0 +1,44 @@
+---
+title: "binomio de newton"
+author: "juan haro"
+date: "2024-04-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Binomio de newton  
+
+## PRODUCTO NOTABLE 
+
+la formula del producto notable es 
+
+$$(a+b)^2= a^2+2\cdot a\cdot b+b^2$$ 
+### Funcion con R 
+
+```{r binomio de newton 2}
+binomioNewton2 = function(x,y){x^2+2*x*y+y^2}
+```
+binomioNewton2(1,2) = `r binomioNewton2(1,2)` 
+
+para los parámetros (2,1) , daría lo mismo binomioNewton2(2,1) = `r binomioNewton2(2,1)` 
+
+### Binomio de Newton 
+
+$$(a+b)^n=\sum_{k=0}^n {n \choose k}\cdot a^{n-k}\cdot b^k = {n\choose0}*a^n*b^0+\cdots {n\choose n}a^0*b^n$$ 
+
+### función en R 
+
+```{r binomioNewton}
+binomioNewton = function(a,b,n){
+  cumsum(choose(n,(0:n))*a^{n-(0:n)}*b^(0:n))[n+1]# llamamos a la última entrada del vector cumsum
+  # y como simbre sale un resultado mas como cumsum(1,2) = 1,3
+}
+```
+binomioNewton(2,1,2) = `r binomioNewton(2,1,2)` 
+
+binomioNewton(3,4,7) = `r binomioNewton(3,4,7)`
+
+

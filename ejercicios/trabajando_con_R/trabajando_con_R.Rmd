@@ -1,0 +1,284 @@
+---
+title: "trabajando con R"
+author: "juan haro"
+date: "2024-04-09"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+desde la pantallade edición podemos copiar el comando a la consola con alt+enter 
+
+para obtener ayuda por consola ponemos el comando?? y la pestaña help, se puede pedir ayuda con 
+help(comando) , o sipor ejemplo la suma + , help("+"), tiene que ir entrecomillado , ya que es un símbolo 
+
+para abrir la ayuda como una pagina web , tenemos que hacer help.start()
+
+### instalar y cargar paquetes 
+
+para instalar install.packages("nombre del paquete") 
+
+para cargar un paquete library(nombre del paquete) 
+
+library(tidyverse) #cargando el paquete tidyverse 
+
+install.packages("magic",dep=TRUE)# instalando el paquete magic , para cuadrados mágicos 
+
+library(magic) 
+
+```{r}
+library(magic)
+magic(6) # crea un cuadraod mágico de 6x6
+```
+si cierro la sesión de r-studio los paquete que tenía cargados , ahora no lo están 
+
+En el menú *session* también podemos reiniciar la sesión o cerrar `R`  
+
+para saber los paquetes instalados **instaled.packages()** 
+instaled.packages() 
+
+### R como claculadora 
+
+```{r}
+1+1
+1+1;2+2;3+5
+7%/%3
+7%%3
+Inf
+```
+
+tenemos las operaciones +,-,*,/,^(potencia), %/%(cociente entero),%%(resto de la división)
+
+7%/%3 =`r 7%/%3`, cociente entero , y el reto 7%%3 = `r 7%%3` 
+
+el algorimo de euclides comfirma esto **D = d*c+r** 7=3*2+1 
+
+si quiero calcular cuantos dias son 1000 horas = `r 1000%/%24` dias 
+
+el número pi `r pi` el infinito `r Inf` el -infinito `r -Inf` Not aviable `r NA` not a number `r NaN` , 5/0 = `r 5/0` y 0/0 = `r 0/0` 
+2^50 = `r 2^50` 
+
+```{r}
+#2^45 == 35184370000000
+# si en un vector hay más de 1 número en notación científica los demás se ponen en esa notación
+c(2^46, 7^-25,1,15,8)
+```
+
+
+### Calculadora básica funciones 
+
+
+```{r}
+sqrt(3)
+log(exp(1)) # el logaritmo de 1 en base e 
+#log(1,e) # esto da error , ya que el numero e se espresa como exp
+exp(1)
+log(1000,10)
+log10(1000)
+abs(-13)
+```
+
+el factorial se calcula con la función factorial() 5! = `r factorial(5)` 
+
+luego tenemos la función choose(m,n) que nos da el número combinatorio o cociente binomial 
+
+$$\displaystyle {n\choose m} = \frac{n!}{m!(n-m)!}$$
+de cuantas maneras se pueden sacar n elementos de un conjunto de m elementos  
+
+si tubiera 5 platos y quisiera comerme 3 de ellos choose(5,3) = `r choose(5,3)` 
+
+[cociente binimial](https://es.wikipedia.org/wiki/Coeficiente_binomial) 
+
+tambien el [triangulo de Pascal](https://es.wikipedia.org/wiki/Tri%C3%A1ngulo_de_Pascal)
+
+### funciones trigonometricas 
+
+los ángulos se dan en radianes  
+
+cos(60), no serían 60º sino que serían radianes así `r cos(60)` , para que sea el coseno de 60º tenemos que pasarlo a sexagesinales o sea de radianes a grados con el factor de conversion $\frac{\pi}{180^{\circ}}$ , $cos(60^{\circ})$ = `r cos(60*pi/180)` 
+
+?cos
+otra cosa que nos dice la ayuda es que sinpi(1/2) = 1 # =sin(pi/2) 
+
+tan(pi) = `r tan(pi)` $\approx$ 0 sin embargo si hacemos 
+
+tan(pi/2) = `r tan(pi/2)` $\approx$ $\infty$ 
+
+el arcoseno es el ángulo cuyo seno es por ejemplo $\sin(60^\circ)$ = `r sin(60*pi/180)` su ángulo es `r asin(sin(60*pi/180))` como hemos usado la funcion arsin nos da el resultado en radianes 
+para que se vea en grados lo tenenos  que multiplicar por $\frac{180}{\pi}$   
+arcsin(0.8660254) = `r asin(sin(60*pi/180))*180/pi` 
+
+recordemos que cualquier angulo esta en $[-1,1]$ o sea $\arcsin x \in [-1,1]$ 
+
+[trigonometría](https://es.wikipedia.org/wiki/Trigonometr%C3%ADa#:~:text=En%20t%C3%A9rminos%20generales%2C%20la%20trigonometr%C3%ADa,plana%20o%20geometr%C3%ADa%20del%20espacio.) 
+
+### Redondeo y decimales en R 
+
+existe la función print(x,n) donde x es un numero y n las cifras significativas de ese número 
+
+print($\sqrt{2}$,10)  
+
+```{r}
+print(sqrt(2),10) # imprimo la raiz cuadrada de dos con 10 cifras significativas
+round(sqrt(2),3) # redondeo la raiz cuadrada de dos a 3 cifras significativas 
+floor(sqrt(2)) # da la parte entera de sqrt(2) o sea la parte entera a la baja
+ceiling(sqrt(2)) # la parte entera de sqrt(2) al alza
+```
+
+
+la función round(x,n) redondea a n cifras significativas a un número x 
+
+la función floor(x) parte entra por defecto de x $\lfloor{x}\rfloor$ 
+
+cuidado con los numeros negativos porque si hacemos floor(-4.35) = `r floor(-4.35)` no nos da -4 si no -5 porque -4 sería mayor que -4.35
+
+la función ceiling(x) parte entera por exceso de x $\lceil x \rceil$ 
+
+y también un numero negativo en ceiling(-4.35) = `r ceiling(-4.35)` ya que -4 es mayor que -4.35
+
+la función trunc(x) parte entera de x eliminando la parte decimal 
+
+porque son importantes esos pequeños decimales , pues porque si hacemos sqrt(2)^2 = `r sqrt(2)^2` da 2 , pero y si resto 2 sqrt(2)^-2 = `r sqrt(2)^2-2` es mcercano a cero , pero no es cero 
+
+
+```{r}
+# si hacemos 
+2^50 # sale en notación cientifica 
+print(2^50,15) # no tación exacta 
+
+```
+
+`R` no trabaja con más de 16 cifras decimales 
+```{r}
+#si hacemos esto 
+#print(pi, 40) da error 
+```
+si comparamos una cantidad de digitos de 22 en pi  
+
+```{r}
+print(pi,22)
+#3.1415926535 8979323846 2643383279 5028841971 6939937510
+# vemos que a partir del 16 ya no es el mismo número 
+```
+?round 
+
+en la función round podemos invertir el orden de los parámetros, pero tenemos que especificarlos
+round(digists=5,sqrt) = `r round(digits= 5,sqrt(2))` los mismo se puede hacer con la función logaritmo log(32, base = 2)= `r log(32, base=2)` 
+
+### crear variables en R 
+
+una variable sirve para guardar un objeto o un valor nombre variable = valor 
+
+x= (pi^2)/2 # el lado izquierdo es la variable y el lado derecho es el valor
+x 
+
+también podemos utilizar el simbolo <- , por ejemplo 
+
+y <- cos(pi/4)
+y 
+
+también puede ir en el otro sentido 
+
+sin(pi/4) + cos(pi/4) -> z 
+z 
+
+las variables tienen que comenzar en letra o un punto  
+
+por ejemplo pi.4 = 4*pi (`r 4*pi`)
+
+### variables y funciones en R 
+
+la sintaxis para declarar funciones es: 
+
+nombre_función = function(variable){funcion} 
+
+var = 4
+Ejemplo: doble = fuction(x){2*x} ; doble(var) # 8 
+
+f = function(x){x^3 -(3*x) *sin(x)}
+f(4) 
+
+en caso de querer declara una funcion de dos variables 
+
+product=function(x,y){x*y} 
+
+product(8,4)
+
+si queremos una función de tres parámetros 
+
+g <- function(x,y,z){exp(x^2+y^2)*sin(z)}
+g(1,2,3) 
+
+las funciones no tiene porque dar números reales , pueden devolver vectores o matrices 
+
+el argumento de una funcion puede ser otra funcion, si tenemos la función 
+
+suma1 = function(x){x+1}
+suma1(4) 
+
+y anora la función suma5 
+
+suma5 <- function(numero){
+ numero = suma1(numero);
+ numero = suma1(numero);
+ numero = suma1(numero);
+ numero = suma1(numero);
+ suma1(numero) 
+}
+
+suma5(4) 
+
+la funcion ls() lista los objetos que tenemos en la memoria en la sesion de `R`, si quertemos eliminar un objeto usamos la función rm() 
+
+si queremos eliminar todo lo que tenemos en la memoria usamos 
+
+rm(list = ls())  
+
+### Trabajando con números complejos 
+
+[Números complejos](https://es.wikipedia.org/wiki/N%C3%BAmero_complejo)
+
+su sintaxis es: 
+
+a+bi , donde i es el número imaginario $i = \sqrt{-1}$ o bien (forma binómica) , la i se pone junto a la parte imaginaria 
+
+complex(real=..., imaginary==...)  (también forma binómica per con argumentos en la función complex)
+
+complex(modulus=..., argument=---) (forma polar en la función complex) 
+
+si queremos hacer la raiz cuadrada de un número y queremos que sea tratado como complejo hacemos sqrt(as.complex(-x)) 
+
+Re(x) parte real de un número complejo 
+
+Im(x) parte imaginaria de un número complejo 
+
+Mod(x) Módulo de un número complejo 
+
+Arg(x) Argumento de un número complejo 
+
+conj(x) conjugado de un número complejo 
+
+```{r numeros complejos}
+z = 2+3i #forma binomica
+Re(z)
+Im(z)
+Conj(z)
+class(3+5i)
+```
+
+el producto de un número complejo por un escalar  (3+2i)*5 = `r (3+2i)*5` 
+
+multiplicar dos números complejos (3+2i)*(-1+3i) = `r (3+2i)*(-1+3i)` 
+
+dividir dos números complejos (3+2i)/(-1+3i) = `r (3+2i)/(-1+3i)` 
+
+complex(real=pi, imaginary= sqrt(2)) 
+
+sqrt(as.complex(-5))
+
+sqrt(3+2i) = `r sqrt(3+2i)` positivo
+exp(3+2i)
